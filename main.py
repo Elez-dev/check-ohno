@@ -19,7 +19,7 @@ def main(address_list):
     prescale = 4500
     data = get_data()
     for address in address_list:
-        # address = Web3.to_checksum_address(address)
+        address = Web3.to_checksum_address(address)
         if address in data:
             point_quantitu = prescale * data[address]
             logger.success(f'{address}: {point_quantitu}')
