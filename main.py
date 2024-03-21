@@ -1,7 +1,6 @@
 import time
 import sys
-import requests
-from web3 import Web3
+import json
 from loguru import logger
 
 logger.remove()
@@ -9,19 +8,13 @@ logger.add("./data/log.txt")
 logger.add(sys.stdout, format="<green>{time:YYYY-MM-DD HH:mm:ss}</green> | <level>{level: <7}</level> | <cyan>{message}</cyan>")
 
 
-def get_data():
-    res = requests.get('https://ohno.wtf/airdrop.json')
-    return res.json()
-
-
 def main(address_list):
     total_point = 0
     prescale = 4500
-    data = get_data()
+    data = json.load(open('addr.json', 'r'))
     for address in address_list:
-        address = Web3.to_checksum_address(address)
-        if address in data:
-            point_quantitu = prescale * data[address]
+        if address.lower() in data:
+            point_quantitu = prescale * data[address.lower()]
             logger.success(f'{address}: {point_quantitu}')
             total_point += point_quantitu
 
